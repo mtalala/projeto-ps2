@@ -6,10 +6,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import jakarta.persistance.Entity;
-import jakarta.persistance.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,6 +19,7 @@ public class Objetivo {
     @OneToMany
     private List<ResultadoChave> kr;
     @Id
+    private long id;
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
