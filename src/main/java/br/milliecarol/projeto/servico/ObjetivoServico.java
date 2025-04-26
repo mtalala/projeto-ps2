@@ -12,31 +12,14 @@ public class ObjetivoServico {
     private ObjetivoRepository objetivoRepository;
     private final Scanner scanner = new Scanner(System.in);
 
-    // private void cadastrar() {
-    //     System.out.println("===== Cadastro de Objetivos =====");
-    //     System.out.print("Digite o título: ");
-    //     String titulo = scanner.nextLine();
-
-    //     System.out.print("Digite a descrição: ");
-    //     String desc = scanner.nextLine();
-
-    //     System.out.print("Digite a porcentagem de conclusão geral: ");
-    //     double porcentagemConcGeral = scanner.nextDouble();
-    //     scanner.nextLine();
-
-    //     System.out.print("Digite o ID: ");
-    //     long id = scanner.nextLong();
-
-    //     if (objetivoRepositoryRepository.existsByTituloAndDesc(titulo, desc)) {
-    //         System.out.println("Erro: Já existe um objetivo com este título e descrição!");
-    //         return;
-    //     }
-
-    //     Objetivo obj = new Objetivo(long id, String titulo, String desc, double porcentagemConcGeral);
-    //     objetivoRepository.save(obj);
-
-    //     System.out.println("Objetivo cadastrado com sucesso!");
-    // }
+    public void cadastrar(Objetivo objetivo) {
+        if (objetivo != null) {
+            objetivoRepository.save(objetivo);
+            System.out.println("Objetivo cadastrado com sucesso!");
+        } else {
+            System.out.println("Erro ao cadastrar Objetivo. Dados inválidos.");
+        }
+    }
 
     public void listar() {
         List<Objetivo> objetivos = objetivoRepository.findAll();

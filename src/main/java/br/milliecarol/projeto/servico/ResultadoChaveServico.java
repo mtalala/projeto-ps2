@@ -13,6 +13,15 @@ public class ResultadoChaveServico {
     private ResultadoChaveRepository resultadoChaveRepository;
     private final Scanner scanner = new Scanner(System.in);
 
+    public void cadastrar(ResultadoChave resultadoChave) {
+        if (resultadoChave != null) {
+            resultadoChaveRepository.save(resultadoChave);
+            System.out.println("Resultado Chave cadastrado com sucesso!");
+        } else {
+            System.out.println("Erro ao cadastrar Resultado Chave. Dados inválidos.");
+        }
+    }
+
     public void listar() {
         List<ResultadoChave> resultados = resultadoChaveRepository.findAll();
         if (resultados.isEmpty()) {

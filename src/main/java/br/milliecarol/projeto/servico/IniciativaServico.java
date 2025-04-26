@@ -15,6 +15,16 @@ public class IniciativaServico {
     private ResultadoChaveRepository resultadoChaveRepository;
     private final Scanner scanner = new Scanner(System.in);
 
+
+    public void cadastrar(Iniciativa iniciativa) {
+        if (iniciativa != null) {
+            iniciativaRepository.save(iniciativa);
+            System.out.println("Iniciativa cadastrada com sucesso!");
+        } else {
+            System.out.println("Erro ao cadastrar Iniciativa. Dados inválidos.");
+        }
+    }
+
     public void listar() {
         List<Iniciativa> iniciativas = iniciativaRepository.findAll();
         if (iniciativas.isEmpty()) {
