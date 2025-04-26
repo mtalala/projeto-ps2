@@ -13,14 +13,32 @@ public class ResultadoChaveServico {
     private ResultadoChaveRepository resultadoChaveRepository;
     private final Scanner scanner = new Scanner(System.in);
 
-    public void cadastrar(ResultadoChave resultadoChave) {
-        if (resultadoChave != null) {
-            resultadoChaveRepository.save(resultadoChave);
-            System.out.println("Resultado Chave cadastrado com sucesso!");
-        } else {
-            System.out.println("Erro ao cadastrar Resultado Chave. Dados inválidos.");
+    public void cadastrar() {
+        System.out.println("Digite a descrição do Resultado Chave: ");
+        String descricao = scanner.nextLine();
+    
+        System.out.println("Digite a meta do Resultado Chave: ");
+        String meta = scanner.nextLine();
+    
+        System.out.println("Digite a porcentagem de conclusão do Resultado Chave: ");
+        double porcentagemConc = scanner.nextDouble();
+        scanner.nextLine();  
+        
+        if (descricao.isEmpty() || meta.isEmpty() || porcentagemConc < 0 || porcentagemConc > 100) {
+            System.out.println("Erro ao cadastrar Resultado Chave. Verifique os dados inseridos.");
+            return;
         }
+    
+        ResultadoChave resultadoChave = new ResultadoChave();
+        resultadoChave.setDesc(descricao);
+        resultadoChave.setMeta(meta);
+        resultadoChave.setPorcentagemConc(porcentagemConc);
+    
+        resultadoChaveRepository.save(resultadoChave);
+        System.out.println("Resultado Chave cadastrado com sucesso!");
     }
+    
+    
 
     public void listar() {
         List<ResultadoChave> resultados = resultadoChaveRepository.findAll();

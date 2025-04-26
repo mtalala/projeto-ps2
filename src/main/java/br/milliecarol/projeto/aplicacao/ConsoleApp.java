@@ -52,9 +52,10 @@ public class ConsoleApp {
         int op;
         do {
             System.out.println("\n1. Listar Objetivos");
-            System.out.println("2. Buscar Objetivo");
-            System.out.println("3. Salvar Objetivo");
-            System.out.println("4. Deletar Objetivo");
+            System.out.println("2. Cadastrar Objetivo");
+            System.out.println("3. Buscar Objetivo");
+            System.out.println("4. Salvar Objetivo");
+            System.out.println("5. Deletar Objetivo");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             op = sc.nextInt();
@@ -65,9 +66,12 @@ public class ConsoleApp {
                     objetivoServico.listar();
                     break;
                 case 2:
-                    objetivoServico.buscarPorTitulo();
+                    objetivoServico.cadastrar();
                     break;
                 case 3:
+                    objetivoServico.buscarPorTitulo();
+                    break;
+                case 4:
                     System.out.print("Digite o título: ");
                     String tituloSave = sc.nextLine();
                     System.out.print("Digite a descrição: ");
@@ -77,7 +81,7 @@ public class ConsoleApp {
                     objetivo.setDesc(descSave);
                     objetivoServico.salvar(objetivo);
                     break;
-                case 4:
+                case 5:
                     System.out.print("Digite o ID do Objetivo para deletar: ");
                     Long idDelete = sc.nextLong();
                     objetivoServico.deletar(idDelete);
@@ -93,10 +97,11 @@ public class ConsoleApp {
     private static void menuResultadoChave(Scanner sc) {
         int op;
         do {
-            System.out.println("\n1. Listar Resultados");
-            System.out.println("2. Buscar Resultado");
-            System.out.println("3. Salvar Resultado");
-            System.out.println("4. Deletar Resultado");
+            System.out.println("\n1. Listar Resultados Chave");
+            System.out.println("2. Cadastrar Resultado Chave");
+            System.out.println("3. Buscar Resultado Chave");
+            System.out.println("4. Salvar Resultado Chave");
+            System.out.println("5. Deletar Resultado Chave");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             op = sc.nextInt();
@@ -107,9 +112,11 @@ public class ConsoleApp {
                     resultadoChaveServico.listar();
                     break;
                 case 2:
+                    resultadoChaveServico.cadastrar();
+                case 3:
                     resultadoChaveServico.buscarPorDescricao();
                     break;
-                case 3:
+                case 4:
                     System.out.print("Digite a descrição: ");
                     String descricaoSave = sc.nextLine();
                     System.out.print("Digite a meta: ");
@@ -119,7 +126,7 @@ public class ConsoleApp {
                     resultadoChave.setMeta(metaSave);
                     resultadoChaveServico.salvar(resultadoChave);
                     break;
-                case 4:
+                case 5:
                     System.out.print("Digite o ID do Resultado para deletar: ");
                     Long idDelete = sc.nextLong();
                     resultadoChaveServico.deletar(idDelete);
@@ -136,9 +143,10 @@ public class ConsoleApp {
         int op;
         do {
             System.out.println("\n1. Listar Iniciativas");
-            System.out.println("2. Buscar Iniciativa");
-            System.out.println("3. Salvar Iniciativa");
-            System.out.println("4. Deletar Iniciativa");
+            System.out.println("2. Cadastrar Iniciativa");
+            System.out.println("3. Buscar Iniciativa");
+            System.out.println("4. Salvar Iniciativa");
+            System.out.println("5. Deletar Iniciativa");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             op = sc.nextInt();
@@ -149,9 +157,12 @@ public class ConsoleApp {
                     iniciativaServico.listar();
                     break;
                 case 2:
-                    iniciativaServico.buscarPorTitulo();
+                    iniciativaServico.cadastrar();
                     break;
                 case 3:
+                    iniciativaServico.buscarPorTitulo();
+                    break;
+                case 4:
                     System.out.print("Digite o título: ");
                     String tituloSave = sc.nextLine();
                     System.out.print("Digite a descrição: ");
@@ -161,7 +172,7 @@ public class ConsoleApp {
                     iniciativa.setDesc(descSave);
                     iniciativaServico.salvar(iniciativa);
                     break;
-                case 4:
+                case 5:
                     System.out.print("Digite o ID da Iniciativa para deletar: ");
                     Long idDelete = sc.nextLong();
                     iniciativaServico.deletar(idDelete);

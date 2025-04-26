@@ -16,14 +16,36 @@ public class IniciativaServico {
     private final Scanner scanner = new Scanner(System.in);
 
 
-    public void cadastrar(Iniciativa iniciativa) {
-        if (iniciativa != null) {
+    public void cadastrar() {
+    
+        System.out.println("Digite o título da Iniciativa: ");
+        String titulo = scanner.nextLine();
+    
+        System.out.println("Digite a descrição da Iniciativa: ");
+        String descricao = scanner.nextLine();
+    
+        System.out.println("Digite a porcentagem de conclusão da Iniciativa: ");
+        double porcentagemConcIndividual = scanner.nextDouble();
+        scanner.nextLine();  
+    
+        System.out.println("Digite o ID do Resultado Chave: ");
+        long krId = scanner.nextLong();
+        ResultadoChave kr = resultadoChaveRepository.findById(krId).orElse(null);
+    
+        if (kr != null) {
+            Iniciativa iniciativa = new Iniciativa();
+            iniciativa.setTitulo(titulo);
+            iniciativa.setDesc(descricao);
+            iniciativa.setPorcentagemConcIndividual(porcentagemConcIndividual);
+            iniciativa.setKr(kr);
+    
             iniciativaRepository.save(iniciativa);
             System.out.println("Iniciativa cadastrada com sucesso!");
         } else {
-            System.out.println("Erro ao cadastrar Iniciativa. Dados inválidos.");
+            System.out.println("Resultado Chave não encontrado. Cadastro da Iniciativa falhou.");
         }
     }
+    
 
     public void listar() {
         List<Iniciativa> iniciativas = iniciativaRepository.findAll();

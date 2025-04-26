@@ -12,14 +12,28 @@ public class ObjetivoServico {
     private ObjetivoRepository objetivoRepository;
     private final Scanner scanner = new Scanner(System.in);
 
-    public void cadastrar(Objetivo objetivo) {
-        if (objetivo != null) {
-            objetivoRepository.save(objetivo);
-            System.out.println("Objetivo cadastrado com sucesso!");
-        } else {
-            System.out.println("Erro ao cadastrar Objetivo. Dados inválidos.");
+    public void cadastrar() {
+    
+        System.out.println("Digite o título do Objetivo: ");
+        String titulo = scanner.nextLine();
+    
+        System.out.println("Digite a descrição do Objetivo: ");
+        String descricao = scanner.nextLine();
+    
+        if (titulo.isEmpty() || descricao.isEmpty()) {
+            System.out.println("Erro ao cadastrar Objetivo. Título ou descrição não podem estar vazios.");
+            return;
         }
+    
+        Objetivo objetivo = new Objetivo();
+        objetivo.setTitulo(titulo);
+        objetivo.setDesc(descricao);
+    
+        objetivoRepository.save(objetivo);
+        System.out.println("Objetivo cadastrado com sucesso!");
     }
+    
+    
 
     public void listar() {
         List<Objetivo> objetivos = objetivoRepository.findAll();
