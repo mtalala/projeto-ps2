@@ -1,6 +1,5 @@
 package br.milliecarol.projeto;
 
-import java.util.*;
 import br.milliecarol.projeto.aplicacao.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
