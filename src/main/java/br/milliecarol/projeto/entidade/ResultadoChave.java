@@ -5,12 +5,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import jakarta.persistance.Entity;
-import jakarta.persistance.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +16,7 @@ import jakarta.persistence.OneToMany;
 @Table(name="kr")
 public class ResultadoChave {
     @ManyToOne
-    @JoinColumn(name="objetivo_titulo")
+    @JoinColumn(name="objetivo_id")
     private Objetivo obj;
     @OneToMany
     private List<Iniciativa> inic;

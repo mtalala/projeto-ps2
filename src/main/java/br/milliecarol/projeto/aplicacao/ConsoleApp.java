@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleApp {
     
-    public void iniciar() {
+    public static void iniciar() {
         Scanner sc = new Scanner(System.in);
         int op;
 
