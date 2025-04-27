@@ -17,6 +17,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="iniciativas")
 public class Iniciativa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "id")  
+    private Long id;
     @ManyToOne
     @JoinColumn(name="kr_id")
     private ResultadoChave kr;

@@ -12,33 +12,30 @@ public class ObjetivoServico {
     private ObjetivoRepository objetivoRepository;
     private final Scanner scanner = new Scanner(System.in);
 
-    // private void cadastrar() {
-    //     System.out.println("===== Cadastro de Objetivos =====");
-    //     System.out.print("Digite o título: ");
-    //     String titulo = scanner.nextLine();
+    public void cadastrar() {
+    
+        System.out.println("Digite o título do Objetivo: ");
+        String titulo = scanner.nextLine();
+    
+        System.out.println("Digite a descrição do Objetivo: ");
+        String descricao = scanner.nextLine();
+    
+        if (titulo.isEmpty() || descricao.isEmpty()) {
+            System.out.println("Erro ao cadastrar Objetivo. Título ou descrição não podem estar vazios.");
+            return;
+        }
+    
+        Objetivo objetivo = new Objetivo();
+        objetivo.setTitulo(titulo);
+        objetivo.setDesc(descricao);
+    
+        objetivoRepository.save(objetivo);
+        System.out.println("Objetivo cadastrado com sucesso!");
+    }
+    
+    
 
-    //     System.out.print("Digite a descrição: ");
-    //     String desc = scanner.nextLine();
-
-    //     System.out.print("Digite a porcentagem de conclusão geral: ");
-    //     double porcentagemConcGeral = scanner.nextDouble();
-    //     scanner.nextLine();
-
-    //     System.out.print("Digite o ID: ");
-    //     long id = scanner.nextLong();
-
-    //     if (objetivoRepositoryRepository.existsByTituloAndDesc(titulo, desc)) {
-    //         System.out.println("Erro: Já existe um objetivo com este título e descrição!");
-    //         return;
-    //     }
-
-    //     Objetivo obj = new Objetivo(long id, String titulo, String desc, double porcentagemConcGeral);
-    //     objetivoRepository.save(obj);
-
-    //     System.out.println("Objetivo cadastrado com sucesso!");
-    // }
-
-    private void listar() {
+    public void listar() {
         List<Objetivo> objetivos = objetivoRepository.findAll();
         if (objetivos.isEmpty()) {
             System.out.println("\nNenhum objetivo cadastrado!");
@@ -54,12 +51,109 @@ public class ObjetivoServico {
         }
     }
 
-    private void deletar(Long id) {
+    public void deletar(Long id) {
         objetivoRepository.deleteById(id);
     }
 
     public Objetivo salvar(Objetivo objetivo) {
         return objetivoRepository.save(objetivo);
     }
+
+    public void buscar() {
+        System.out.println("\n[Busca de Objetivos]");
+        System.out.println("1. Buscar por Título");
+        System.out.println("2. Buscar por Descrição");
+        System.out.println("3. Buscar por Porcentagem de Conclusão Geral");
+        System.out.println("4. Buscar por ID");
+        System.out.print("Escolha uma opção: ");
+        int opcao = scanner.nextInt();
+        scanner.nextLine(); 
+    
+        switch (opcao) {
+            case 1:
+                buscarPorTitulo();
+                break;
+            case 2:
+                buscarPorDescricao();
+                break;
+            case 3:
+                buscarPorPorcentagem();
+                break;
+            case 4:
+                buscarPorId();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+    
+    public void buscarPorTitulo() {
+        System.out.print("\nDigite o título desejado: ");
+        String titulo = scanner.nextLine();
+        List<Objetivo> objetivos = objetivoRepository.findByTituloContainingIgnoreCase(titulo);
+    
+        if (objetivos.isEmpty()) {
+            System.out.println("Nenhum objetivo encontrado com este título.");
+            return;
+        }
+    
+        System.out.println("\n[Objetivos Encontrados por Título]");
+        for (Objetivo obj : objetivos) {
+            System.out.printf("- %s: %s (%.2f%%)%n", obj.getTitulo(), obj.getDesc(), obj.getPorcentagemConcGeral());
+        }
+    }
+    
+    public void buscarPorDescricao() {
+        System.out.print("\nDigite a descrição desejada: ");
+        String desc = scanner.nextLine();
+        List<Objetivo> objetivos = objetivoRepository.findByDescContainingIgnoreCase(desc);
+    
+        if (objetivos.isEmpty()) {
+            System.out.println("Nenhum objetivo encontrado com esta descrição.");
+            return;
+        }
+    
+        System.out.println("\n[Objetivos Encontrados por Descrição]");
+        for (Objetivo obj : objetivos) {
+            System.out.printf("- %s: %s (%.2f%%)%n", obj.getTitulo(), obj.getDesc(), obj.getPorcentagemConcGeral());
+        }
+    }
+    
+    public void buscarPorPorcentagem() {
+        System.out.print("\nDigite a porcentagem desejada: ");
+        double porcentagem = scanner.nextDouble();
+        scanner.nextLine(); 
+    
+        List<Objetivo> objetivos = objetivoRepository.findByPorcentagemConcGeral(porcentagem);
+    
+        if (objetivos.isEmpty()) {
+            System.out.println("Nenhum objetivo encontrado com esta porcentagem.");
+            return;
+        }
+    
+        System.out.println("\n[Objetivos Encontrados por Porcentagem de Conclusão]");
+        for (Objetivo obj : objetivos) {
+            System.out.printf("- %s: %s (%.2f%%)%n", obj.getTitulo(), obj.getDesc(), obj.getPorcentagemConcGeral());
+        }
+    }
+    
+    public void buscarPorId() {
+        System.out.print("\nDigite o ID desejado: ");
+        long id = scanner.nextLong();
+        scanner.nextLine(); 
+    
+        List<Objetivo> objetivos = objetivoRepository.findById(id);
+    
+        if (objetivos.isEmpty()) {
+            System.out.println("Nenhum objetivo encontrado com este ID.");
+            return;
+        }
+    
+        System.out.println("\n[Objetivo Encontrado por ID]");
+        for (Objetivo obj : objetivos) {
+            System.out.printf("- %s: %s (%.2f%%)%n", obj.getTitulo(), obj.getDesc(), obj.getPorcentagemConcGeral());
+        }
+    }
+    
     
 }

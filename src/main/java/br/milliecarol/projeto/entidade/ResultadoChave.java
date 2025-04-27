@@ -15,6 +15,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="kr")
 public class ResultadoChave {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "id")  
+    private Long id;
     @ManyToOne
     @JoinColumn(name="objetivo_id")
     private Objetivo obj;
@@ -23,6 +27,4 @@ public class ResultadoChave {
     private String desc;
     private String meta;
     private double porcentagemConc;
-    @Id
-    private long id;
 }
