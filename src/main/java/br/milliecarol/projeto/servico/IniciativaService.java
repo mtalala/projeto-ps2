@@ -2,6 +2,8 @@ package br.milliecarol.projeto.servico;
 
 import br.milliecarol.projeto.entidade.Iniciativa;
 import br.milliecarol.projeto.repositorio.IniciativaRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,10 +12,14 @@ import java.util.Optional;
 @Service
 public class IniciativaService {
 
+    @Autowired
+    private final ResultadoChaveService resultadoChaveService;
+
     private final IniciativaRepository iniciativaRepository;
 
-    public IniciativaService(IniciativaRepository iniciativaRepository) {
+    public IniciativaService(IniciativaRepository iniciativaRepository, ResultadoChaveService resultadoChaveService) {
         this.iniciativaRepository = iniciativaRepository;
+        this.resultadoChaveService = resultadoChaveService;
     }
 
 // CREATE
@@ -74,19 +80,19 @@ public Iniciativa salvar(Iniciativa novaiIniciativa) {
             return null;
     }
 
-// CALCULO PORCENTAGEM
-/*public Iniciativa atualizarPorcentagem(Long id, double porcentagem) {
-    Iniciativa iniciativa = buscarPorId(id);
-    if (iniciativa != null) {
-        iniciativa.setPorcentagemConcIndividual(porcentagem);
-        Iniciativa atualizada = iniciativaRepository.save(iniciativa);
-        
-        // Atualiza o KR relacionado
-        if (atualizada.getKr() != null) {
-            krService.atualizarPorcentagemKr(atualizada.getKr().getId());
+    // CALCULO PORCENTAGEM
+    public Iniciativa atualizarPorcentagem(Long id, double porcentagem) {
+        Iniciativa iniciativa = buscarPorId(id);
+        if (iniciativa != null) {
+            iniciativa.setPorcentagemConcIndividual(porcentagem);
+            Iniciativa atualizada = iniciativaRepository.save(iniciativa);
+            
+            // Atualiza o KR relacionado
+            if (atualizada.getKr() != null) {
+                resultadoChaveService.atualizarPorcentagemKr(atualizada.getKr().getId());
+            }
+            return atualizada;
         }
-        return atualizada;
+        return null;
     }
-    return null;
-}*/
 }

@@ -1,8 +1,10 @@
 package br.milliecarol.projeto.controlador;
+import br.milliecarol.projeto.repositorio.ObjetivoRepository;
 import br.milliecarol.projeto.servico.*;
 import br.milliecarol.projeto.entidade.*;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,10 +14,13 @@ import java.util.*;
 @RequestMapping("/objetivos")
 public class ObjetivoController {
 
+    private final ObjetivoRepository objetivoRepository;
+
     private final ObjetivoService objetivoService;
 
-    public ObjetivoController(ObjetivoService objetivoService) {
+    public ObjetivoController(ObjetivoService objetivoService, ObjetivoRepository objetivoRepository) {
         this.objetivoService = objetivoService;
+        this.objetivoRepository = objetivoRepository;
     }
 
  // CREATE
@@ -78,5 +83,13 @@ public void apagar(@PathVariable("id") Long id) {
     objetivoService.apagar(id);
 }
 
+//Lógica calculo %
+
+@PutMapping("/{id}/recalcular-porcentagem")
+    public ResponseEntity<Objetivo> recalcularPorcentagem(@PathVariable Long id) {
+        Objetivo objetivo = objetivoService.buscarPorId(id);
+        objetivo.calcularPorcentagemConcGeral(); // Chama o método da entidade
+        return ResponseEntity.ok(objetivoService.salvar(objetivo));
+    }
 
 }

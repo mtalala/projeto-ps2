@@ -66,11 +66,11 @@ public class ObjetivoService {
     }
     
     //CALCULO %
-   /* public void atualizarPorcentagemObjetivo(Long objetivoId) {
+    public void atualizarPorcentagemObjetivo(Long objetivoId) {
         Objetivo objetivo = buscarPorId(objetivoId);
         if (objetivo != null) {
             objetivo.calcularPorcentagemConcGeral();
             objetivoRepository.save(objetivo);
         }
-    }*/
+    }
 }

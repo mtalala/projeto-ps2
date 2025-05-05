@@ -25,7 +25,7 @@ public class Objetivo {
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
-/* Logica de porcentagem??
+/* Logica de porcentagem??*/
     @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL)
     private List<ResultadoChave> krs = new ArrayList<>();
 
@@ -35,12 +35,15 @@ public class Objetivo {
             return;
         }
 
-        double soma = krs.stream()
-            .mapToDouble(ResultadoChave::getPorcentagemConc)
-            .average()
-            .orElse(0.0);
-
-        this.porcentagemConcGeral = Math.round(soma * 100) / 100.0;
+       double soma = 0.0;
+        int count = 0;
+        
+        for (ResultadoChave kr : krs) {
+            soma += kr.getPorcentagemConc();
+            count++;
+        }
+        // % de conclusão geral é a média das % de resultado chave
+        this.porcentagemConcGeral = count > 0 ? Math.round(soma / count) : 0.0;
     }
-*/
+
 }

@@ -22,28 +22,31 @@ public class ResultadoChave {
     @ManyToOne
     @JoinColumn(name="objetivo_id")
     private Objetivo obj;
-    @OneToMany
-    private List<Iniciativa> inic;
+   // @OneToMany
+    //private List<Iniciativa> inic;
     private String desc;
     private String meta;
     private double porcentagemConc;
 
-/*  logica de calculo de porcentagem ?? 
+/*  logica de calculo de porcentagem ?? */
     @OneToMany(mappedBy = "kr")
     private List<Iniciativa> iniciativas = new ArrayList<>();
-
+    
     public void calcularPorcentagemConc() {
-        if (iniciativas == null || iniciativas.isEmpty()) {
-            this.porcentagemConc = 0.0;
-            return;
-        }
-
-        double soma = iniciativas.stream()
-            .mapToDouble(Iniciativa::getPorcentagemConcIndividual)
-            .average()
-            .orElse(0.0);
-
-        this.porcentagemConc = Math.round(soma * 100) / 100.0; // Arredonda para 2 decimais
+    if (iniciativas == null || iniciativas.isEmpty()) {
+        this.porcentagemConc = 0.0;
+        return;
     }
-*/
+
+    double soma = 0.0;
+    int count = 0;
+    
+    for (Iniciativa iniciativa : iniciativas) {
+        soma += iniciativa.getPorcentagemConcIndividual();
+        count++;
+    }
+    // % de conclusão é a média das % individuais das iniciativas
+    this.porcentagemConc = count > 0 ? Math.round(soma / count) : 0.0;
+}
+
 }
