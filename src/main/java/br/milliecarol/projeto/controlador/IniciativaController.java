@@ -1,9 +1,12 @@
-package br.milliecarol.projeto.controlador;
+//Carolina Sun R. N. Castilho – 10386494
+//Millie Talala Zogheib - 10443653 
 
+package br.milliecarol.projeto.controlador;
 import br.milliecarol.projeto.entidade.Iniciativa;
 import br.milliecarol.projeto.servico.IniciativaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -101,7 +104,7 @@ public class IniciativaController {
     }
 
     //CALCULO 
-   /* @PutMapping("/{id}/progresso")
+    @PutMapping("/{id}/progresso")
     public ResponseEntity<Iniciativa> atualizarProgresso(
             @PathVariable Long id,
             @RequestParam double porcentagem) {
@@ -115,5 +118,6 @@ public class IniciativaController {
             return ResponseEntity.ok(iniciativa);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Iniciativa não encontrada");
-    }*/
+    }
+
 }

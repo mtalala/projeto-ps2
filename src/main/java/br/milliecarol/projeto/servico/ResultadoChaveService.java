@@ -1,7 +1,11 @@
+//Carolina Sun R. N. Castilho – 10386494
+//Millie Talala Zogheib - 10443653 
 package br.milliecarol.projeto.servico;
 
 import br.milliecarol.projeto.entidade.ResultadoChave;
 import br.milliecarol.projeto.repositorio.ResultadoChaveRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +13,13 @@ import java.util.Optional;
 
 @Service
 public class ResultadoChaveService {
+    @Autowired
+    private ObjetivoService objetivoService;
 
+    @Autowired 
+    private IniciativaService iniciativaService;
+    
+    @Autowired
     private final ResultadoChaveRepository resultadoChaveRepository;
 
     public ResultadoChaveService(ResultadoChaveRepository resultadoChaveRepository) {
@@ -68,8 +78,8 @@ public class ResultadoChaveService {
         return resultadoChaveRepository.findByPorcentagemConc(porcentagem);
     }
 
-    //CALCULPO %
-    /*public void atualizarPorcentagemKr(Long krId) {
+    //CALCULO %
+    public void atualizarPorcentagemKr(Long krId) {
         ResultadoChave kr = buscarPorId(krId);
         if (kr != null) {
             kr.calcularPorcentagemConc();
@@ -80,5 +90,5 @@ public class ResultadoChaveService {
                 objetivoService.atualizarPorcentagemObjetivo(kr.getObj().getId());
             }
         }
-    }*/
+    }
 }

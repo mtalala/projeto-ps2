@@ -1,3 +1,5 @@
+//Carolina Sun R. N. Castilho – 10386494
+//Millie Talala Zogheib - 10443653 
 package br.milliecarol.projeto.servico;
 
 import java.util.*;
@@ -66,11 +68,11 @@ public class ObjetivoService {
     }
     
     //CALCULO %
-   /* public void atualizarPorcentagemObjetivo(Long objetivoId) {
+    public void atualizarPorcentagemObjetivo(Long objetivoId) {
         Objetivo objetivo = buscarPorId(objetivoId);
         if (objetivo != null) {
             objetivo.calcularPorcentagemConcGeral();
             objetivoRepository.save(objetivo);
         }
-    }*/
+    }
 }

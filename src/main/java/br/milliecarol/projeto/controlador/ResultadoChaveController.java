@@ -1,12 +1,16 @@
+//Carolina Sun R. N. Castilho – 10386494
+//Millie Talala Zogheib - 10443653 
 package br.milliecarol.projeto.controlador;
 
 import br.milliecarol.projeto.entidade.ResultadoChave;
 import br.milliecarol.projeto.servico.ResultadoChaveService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/resultados-chave")
@@ -87,5 +91,11 @@ public class ResultadoChaveController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resultado-Chave não encontrado para atualização");
         }
         return salvo;
+    }
+    //Lógica calculo
+    @PutMapping("/{id}/recalcular")
+    public ResponseEntity<Void> recalcularPorcentagem(@PathVariable Long id) {
+        resultadoChaveService.atualizarPorcentagemKr(id);
+        return ResponseEntity.ok().build();
     }
 }
