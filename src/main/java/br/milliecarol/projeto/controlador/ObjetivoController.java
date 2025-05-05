@@ -26,7 +26,7 @@ public class ObjetivoController {
     }
 
  // CREATE
- @PostMapping("/objetivos")
+ @PostMapping
  public Objetivo registrarLivro(@RequestBody Objetivo novoObjetivo) {
      Objetivo resp = objetivoService.cadastrar(novoObjetivo);
      if(resp != null) return resp;
@@ -44,7 +44,7 @@ public class ObjetivoController {
   }
 
 // READ
-    @GetMapping("/objetivos/{titulo}")
+    @GetMapping("{titulo}")
     public List<Objetivo> buscarPorTitulo(@PathVariable("titulo") String titulo) {
         List<Objetivo> objetivos = objetivoService.buscarPorTitulo(titulo);
         if (!objetivos.isEmpty()) return objetivos;
@@ -71,7 +71,7 @@ public class ObjetivoController {
     }
 
 // UPDATE
-@PutMapping("/objetivos/{id}")
+@PutMapping("{id}")
 public Objetivo salvar(@PathVariable("id") Long id, @RequestBody Objetivo novoObjetivo) {
     novoObjetivo.setId(id);
     Objetivo resp = objetivoService.salvar(novoObjetivo);
@@ -80,7 +80,7 @@ public Objetivo salvar(@PathVariable("id") Long id, @RequestBody Objetivo novoOb
 }
 
 // DELETE
-@DeleteMapping("/objetivos/{id}")
+@DeleteMapping("{id}")
 public void apagar(@PathVariable("id") Long id) {
     objetivoService.apagar(id);
 }

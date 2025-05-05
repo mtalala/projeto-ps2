@@ -17,11 +17,11 @@ import jakarta.persistence.*;
 @Table(name="objetivos")
 public class Objetivo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    // @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")  
     private Long id;
     @OneToMany
-    private List<ResultadoChave> kr;
+    private List<ResultadoChave> kr = new ArrayList<>();
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
