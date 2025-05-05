@@ -15,9 +15,6 @@ import java.util.Optional;
 public class ResultadoChaveService {
     @Autowired
     private ObjetivoService objetivoService;
-
-    @Autowired 
-    private IniciativaService iniciativaService;
     
     @Autowired
     private final ResultadoChaveRepository resultadoChaveRepository;
