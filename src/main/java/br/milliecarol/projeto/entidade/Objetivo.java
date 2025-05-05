@@ -25,4 +25,22 @@ public class Objetivo {
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
+/* Logica de porcentagem??
+    @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL)
+    private List<ResultadoChave> krs = new ArrayList<>();
+
+    public void calcularPorcentagemConcGeral() {
+        if (krs == null || krs.isEmpty()) {
+            this.porcentagemConcGeral = 0.0;
+            return;
+        }
+
+        double soma = krs.stream()
+            .mapToDouble(ResultadoChave::getPorcentagemConc)
+            .average()
+            .orElse(0.0);
+
+        this.porcentagemConcGeral = Math.round(soma * 100) / 100.0;
+    }
+*/
 }

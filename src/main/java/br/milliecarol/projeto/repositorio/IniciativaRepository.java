@@ -1,12 +1,14 @@
 package br.milliecarol.projeto.repositorio;
-import java.util.*;
-import br.milliecarol.projeto.entidade.*;
+
+import br.milliecarol.projeto.entidade.Iniciativa;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface IniciativaRepository extends JpaRepository<Iniciativa, Long> {
-    List<Iniciativa> findByKr(ResultadoChave kr);
+
     List<Iniciativa> findByTituloContainingIgnoreCase(String titulo);
     List<Iniciativa> findByDescContainingIgnoreCase(String desc);
     List<Iniciativa> findByPorcentagemConcIndividual(double porcentagemConcIndividual);
-    boolean existsByKrAndDesc(ResultadoChave kr, String desc);
+    List<Iniciativa> findByKrId(Long krId);
 }
