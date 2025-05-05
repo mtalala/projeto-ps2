@@ -73,4 +73,20 @@ public Iniciativa salvar(Iniciativa novaiIniciativa) {
             if(resp.isPresent()) return resp.get();
             return null;
     }
+
+// CALCULO PORCENTAGEM
+/*public Iniciativa atualizarPorcentagem(Long id, double porcentagem) {
+    Iniciativa iniciativa = buscarPorId(id);
+    if (iniciativa != null) {
+        iniciativa.setPorcentagemConcIndividual(porcentagem);
+        Iniciativa atualizada = iniciativaRepository.save(iniciativa);
+        
+        // Atualiza o KR relacionado
+        if (atualizada.getKr() != null) {
+            krService.atualizarPorcentagemKr(atualizada.getKr().getId());
+        }
+        return atualizada;
+    }
+    return null;
+}*/
 }

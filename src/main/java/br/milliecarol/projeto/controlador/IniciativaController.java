@@ -99,4 +99,21 @@ public class IniciativaController {
         if(resp != null) return resp;
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Problema com os dados informados");
     }
+
+    //CALCULO 
+   /* @PutMapping("/{id}/progresso")
+    public ResponseEntity<Iniciativa> atualizarProgresso(
+            @PathVariable Long id,
+            @RequestParam double porcentagem) {
+        
+        if (porcentagem < 0 || porcentagem > 100) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Porcentagem deve estar entre 0 e 100");
+        }
+
+        Iniciativa iniciativa = iniciativaService.atualizarPorcentagem(id, porcentagem);
+        if (iniciativa != null) {
+            return ResponseEntity.ok(iniciativa);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Iniciativa não encontrada");
+    }*/
 }

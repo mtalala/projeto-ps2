@@ -27,4 +27,23 @@ public class ResultadoChave {
     private String desc;
     private String meta;
     private double porcentagemConc;
+
+/*  logica de calculo de porcentagem ?? 
+    @OneToMany(mappedBy = "kr")
+    private List<Iniciativa> iniciativas = new ArrayList<>();
+
+    public void calcularPorcentagemConc() {
+        if (iniciativas == null || iniciativas.isEmpty()) {
+            this.porcentagemConc = 0.0;
+            return;
+        }
+
+        double soma = iniciativas.stream()
+            .mapToDouble(Iniciativa::getPorcentagemConcIndividual)
+            .average()
+            .orElse(0.0);
+
+        this.porcentagemConc = Math.round(soma * 100) / 100.0; // Arredonda para 2 decimais
+    }
+*/
 }

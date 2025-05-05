@@ -67,4 +67,18 @@ public class ResultadoChaveService {
     public List<ResultadoChave> buscarPorPorcentagem(double porcentagem) {
         return resultadoChaveRepository.findByPorcentagemConc(porcentagem);
     }
+
+    //CALCULPO %
+    /*public void atualizarPorcentagemKr(Long krId) {
+        ResultadoChave kr = buscarPorId(krId);
+        if (kr != null) {
+            kr.calcularPorcentagemConc();
+            resultadoChaveRepository.save(kr);
+            
+            // Atualiza o Objetivo relacionado
+            if (kr.getObj() != null) {
+                objetivoService.atualizarPorcentagemObjetivo(kr.getObj().getId());
+            }
+        }
+    }*/
 }
