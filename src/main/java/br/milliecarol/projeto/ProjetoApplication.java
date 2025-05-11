@@ -1,11 +1,11 @@
 package br.milliecarol.projeto;
 
-import br.milliecarol.projeto.aplicacao.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import br.milliecarol.projeto.controlador.*;
 
 @SpringBootApplication
 public class ProjetoApplication implements CommandLineRunner {
