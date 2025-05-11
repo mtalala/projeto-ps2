@@ -20,12 +20,10 @@ public class Objetivo {
     // @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")  
     private Long id;
-    @OneToMany
-    private List<ResultadoChave> kr = new ArrayList<>();
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
-/* Logica de porcentagem??*/
+/* Logica de porcentagem*/
     @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL)
     private List<ResultadoChave> krs = new ArrayList<>();
 

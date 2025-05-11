@@ -19,9 +19,11 @@ public class ResultadoChave {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")  
     private Long id;
+
     @ManyToOne
     @JoinColumn(name="objetivo_id")
     private Objetivo obj;
+
    // @OneToMany
     //private List<Iniciativa> inic;
     private String desc;

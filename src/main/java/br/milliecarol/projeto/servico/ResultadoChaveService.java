@@ -25,14 +25,28 @@ public class ResultadoChaveService {
 
     // CREATE
     public ResultadoChave cadastrar(ResultadoChave novoKr) {
-        if (buscarPorId(novoKr.getId()) != null) return null;
         try {
+            // objetivo é obrigatório
+            if (novoKr.getObj() == null || novoKr.getObj().getId() == null) {
+                throw new IllegalArgumentException("Objetivo (id) é obrigatório.");
+            }
+
+            // garante que o objetivo existe
+            var objetivo = objetivoService.buscarPorId(novoKr.getObj().getId());
+            if (objetivo == null) {
+                throw new IllegalArgumentException("Objetivo com id " + novoKr.getObj().getId() + " não encontrado.");
+            }
+            novoKr.setObj(objetivo);
+
+            // salva o KR com o objetivo associado
             return resultadoChaveRepository.save(novoKr);
+
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(); 
             return null;
         }
     }
+
 
     // READ
     public List<ResultadoChave> listar() {

@@ -16,13 +16,13 @@ import java.util.*;
 @RequestMapping("/objetivos")
 public class ObjetivoController {
 
-    private final ObjetivoRepository objetivoRepository;
+    //private final ObjetivoRepository objetivoRepository;
 
     private final ObjetivoService objetivoService;
 
     public ObjetivoController(ObjetivoService objetivoService, ObjetivoRepository objetivoRepository) {
         this.objetivoService = objetivoService;
-        this.objetivoRepository = objetivoRepository;
+        //this.objetivoRepository = objetivoRepository;
     }
 
  // CREATE
