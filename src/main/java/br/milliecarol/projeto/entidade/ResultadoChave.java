@@ -1,5 +1,10 @@
 package br.milliecarol.projeto.entidade;
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -11,7 +16,9 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
+/**
+ * resultados chaves vinculado a um objetivo e contem iniciativas
+ */
 @Entity
 @Table(name="kr")
 public class ResultadoChave {
@@ -20,20 +27,25 @@ public class ResultadoChave {
     @Column(name = "id")  
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="objetivo_id")
-    private Objetivo obj;
-
-   // @OneToMany
-    //private List<Iniciativa> inic;
     private String desc;
     private String meta;
     private double porcentagemConc;
 
-/*  logica de calculo de porcentagem ?? */
-    @OneToMany(mappedBy = "kr")
+    //objetivo que está vinculado
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="objetivo_id")
+    @JsonBackReference
+    private Objetivo obj;
+
+    //lista de iniciativas associadas ao kr
+    @OneToMany(mappedBy = "kr", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Iniciativa> iniciativas = new ArrayList<>();
     
+    /**
+     *   logica de calculo de porcentagem 
+     * calculada como média das iniciativas
+     */
     public void calcularPorcentagemConc() {
     if (iniciativas == null || iniciativas.isEmpty()) {
         this.porcentagemConc = 0.0;
@@ -47,8 +59,7 @@ public class ResultadoChave {
         soma += iniciativa.getPorcentagemConcIndividual();
         count++;
     }
-    // % de conclusão é a média das % individuais das iniciativas
-    this.porcentagemConc = count > 0 ? Math.round(soma / count) : 0.0;
+    this.porcentagemConc =  Math.round(soma / count);
 }
 
 }

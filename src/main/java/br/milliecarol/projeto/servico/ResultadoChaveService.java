@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * responsável pela lógica de negócios do resultado chave(krs)
+ * gerencia CRUD + cálculo de porcentagem de conclusão
+ */
 @Service
 public class ResultadoChaveService {
     @Autowired
@@ -25,28 +29,18 @@ public class ResultadoChaveService {
 
     // CREATE
     public ResultadoChave cadastrar(ResultadoChave novoKr) {
-        try {
-            // objetivo é obrigatório
-            if (novoKr.getObj() == null || novoKr.getObj().getId() == null) {
-                throw new IllegalArgumentException("Objetivo (id) é obrigatório.");
-            }
-
-            // garante que o objetivo existe
-            var objetivo = objetivoService.buscarPorId(novoKr.getObj().getId());
-            if (objetivo == null) {
-                throw new IllegalArgumentException("Objetivo com id " + novoKr.getObj().getId() + " não encontrado.");
-            }
-            novoKr.setObj(objetivo);
-
-            // salva o KR com o objetivo associado
-            return resultadoChaveRepository.save(novoKr);
-
-        } catch (Exception ex) {
-            ex.printStackTrace(); 
-            return null;
+        if (novoKr == null || novoKr.getObj() == null || novoKr.getObj().getId() == null) {
+            throw new IllegalArgumentException("O campo 'obj.id' é obrigatório.");
         }
-    }
 
+        var objetivo = objetivoService.buscarPorId(novoKr.getObj().getId());
+        if (objetivo == null) {
+            throw new IllegalArgumentException("Objetivo com id " + novoKr.getObj().getId() + " não encontrado.");
+        }
+
+        novoKr.setObj(objetivo);
+        return resultadoChaveRepository.save(novoKr);
+    }
 
     // READ
     public List<ResultadoChave> listar() {
@@ -90,6 +84,11 @@ public class ResultadoChaveService {
     }
 
     //CALCULO %
+    /**
+     * atualiza a porcentagem de conclusão de um kr específico e cascata a atualiização para o obj relaciionado
+     * 
+     * @param krId id do kr a que vai ser atualizado
+     */
     public void atualizarPorcentagemKr(Long krId) {
         ResultadoChave kr = buscarPorId(krId);
         if (kr != null) {

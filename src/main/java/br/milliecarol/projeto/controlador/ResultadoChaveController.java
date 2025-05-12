@@ -11,7 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-
+/**
+ * controlador para gerenciamento de resultados chave
+ * endpoints para operações CRUD e porcentagem cálculo
+ */
 @RestController
 @RequestMapping("/resultados-chave")
 public class ResultadoChaveController {
@@ -23,6 +26,12 @@ public class ResultadoChaveController {
     }
 
     // CREATE
+    /**
+     * cadastra um novo Resultado Chave no sistema.
+     * @param novoKr dados do kr a ser criado
+     * @return kr criado
+     * @throws ResponseStatusException 400 se houver problema com os dados
+     */
     @PostMapping
     public ResultadoChave cadastrar(@RequestBody ResultadoChave novoKr) {
         ResultadoChave criado = resultadoChaveService.cadastrar(novoKr);
@@ -32,7 +41,13 @@ public class ResultadoChaveController {
         return criado;
     }
 
+
      // READ
+     /**
+     * retorna todos os KRs cadastrados.
+     * @return Lista de KRs
+     * @throws ResponseStatusException 404 se nenhum KR for encontrado
+     */
     @GetMapping
     public List<ResultadoChave> listar() {
         List<ResultadoChave> resultados = resultadoChaveService.listar();
@@ -42,6 +57,13 @@ public class ResultadoChaveController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum resultado-chave encontrado");
     }
 
+    
+    /**
+     * busca um KR por ID.
+     * @param id ID do KR
+     * @return KR encontrado
+     * @throws ResponseStatusException 404 se não encontrado
+     */
     @GetMapping("/{id}")
     public ResultadoChave buscarPorId(@PathVariable Long id) {
         ResultadoChave kr = resultadoChaveService.buscarPorId(id);
@@ -51,6 +73,13 @@ public class ResultadoChaveController {
         return kr;
     }
 
+
+    /**
+     * busca krs por descrição (contendo o texto, case insensitive).
+     * @param desc texto para busca
+     * @return KRs encontrados
+     * @throws ResponseStatusException 404 se nenhum KR for encontrado
+     */
     @GetMapping("/descricao/{desc}")
     public List<ResultadoChave> buscarPorDescricao(@PathVariable("desc") String desc) {
         List<ResultadoChave> krs = resultadoChaveService.buscarPorDescricao(desc);
@@ -73,6 +102,10 @@ public class ResultadoChaveController {
     }
 
     // DELETE
+    /**
+     * remove um KR do sistema.
+     * @param id ID do KR a ser removido
+     */
     @DeleteMapping("/{id}")
     public void apagar(@PathVariable Long id) {
         ResultadoChave kr = resultadoChaveService.buscarPorId(id);
@@ -83,6 +116,13 @@ public class ResultadoChaveController {
     }
 
     // UPDATE
+    /**
+     * atualiza um kr existente.
+     * @param id ID do kr a ser atualizado
+     * @param novoKr dados atualizados do kr
+     * @return kr atualizado
+     * @throws ResponseStatusException 404 se o kr não for encontrado
+     */
     @PutMapping("/{id}")
     public ResultadoChave salvar(@PathVariable Long id, @RequestBody ResultadoChave novoKr) {
         novoKr.setId(id);
@@ -92,7 +132,14 @@ public class ResultadoChaveController {
         }
         return salvo;
     }
+
+
     //Lógica calculo
+    /**
+     * recalcula a porcentagem de conclusão de um kr específico.
+     * @param id ID do kr
+     * @return ResponseEntity vazio com status
+     */
     @PutMapping("/{id}/recalcular")
     public ResponseEntity<Void> recalcularPorcentagem(@PathVariable Long id) {
         resultadoChaveService.atualizarPorcentagemKr(id);

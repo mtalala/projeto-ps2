@@ -1,6 +1,9 @@
 package br.milliecarol.projeto.entidade;
 
 import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -13,20 +16,30 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @ToString
 
+/**
+ * um objetivo estratégico que tem resultados chave (krs) associados
+ * a porcentagem de conclusão geral é calculada como média das porcentagens dos krs vinculados
+ */
+
 @Entity
 @Table(name="objetivos")
 public class Objetivo {
-    @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Id 
     @Column(name = "id")  
     private Long id;
     private String titulo;
     private String desc;
     private double porcentagemConcGeral;
-/* Logica de porcentagem*/
-    @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL, fetch =FetchType.LAZY)
+    @JsonManagedReference
     private List<ResultadoChave> krs = new ArrayList<>();
 
+   /**
+    * Lógica de cálculo
+    * calcula a porcentagem de conclusão geral como média dos krs associados
+    * arredonda para o inteiro mais p´roximo com o Math.round
+    */
     public void calcularPorcentagemConcGeral() {
         if (krs == null || krs.isEmpty()) {
             this.porcentagemConcGeral = 0.0;
@@ -41,7 +54,7 @@ public class Objetivo {
             count++;
         }
         // % de conclusão geral é a média das % de resultado chave
-        this.porcentagemConcGeral = count > 0 ? Math.round(soma / count) : 0.0;
+        this.porcentagemConcGeral = Math.round(soma / count);
     }
 
 }

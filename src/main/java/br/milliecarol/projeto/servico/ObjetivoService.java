@@ -10,15 +10,22 @@ import org.springframework.stereotype.Service;
 import br.milliecarol.projeto.entidade.Objetivo;
 import br.milliecarol.projeto.repositorio.ObjetivoRepository;
 
+/**
+ * responsável pela lógica de negócios relacionada a Objetivos
+ * ele gerencia as operações CRUD e cálculo de porcentagem de conclusão
+ */
 @Service
 public class ObjetivoService {
     @Autowired
     private ObjetivoRepository objetivoRepository;
 
-
 // CREATE
+ /**
+     * Cadastra um novo objetivo
+     * @param novoObjetivo Objetivo a ser cadastrado
+     * @return Objetivo cadastrado null se ja existir
+     */
     public Objetivo cadastrar(Objetivo novoObjetivo) {
-    
         if(buscarPorId(novoObjetivo.getId()) != null) return null;
         try {
             return objetivoRepository.save(novoObjetivo);
@@ -28,7 +35,8 @@ public class ObjetivoService {
         }
     }
 
-// READ
+
+   // READ
     public List<Objetivo> listar() {
         return objetivoRepository.findAll();
     }
@@ -68,6 +76,10 @@ public class ObjetivoService {
     }
     
     //CALCULO %
+    /**
+     * atualiza a porcentagem de conclusão de um objetivo espeifico
+     * @param objetivoId do objetivo a ser atualizado
+     */
     public void atualizarPorcentagemObjetivo(Long objetivoId) {
         Objetivo objetivo = buscarPorId(objetivoId);
         if (objetivo != null) {
