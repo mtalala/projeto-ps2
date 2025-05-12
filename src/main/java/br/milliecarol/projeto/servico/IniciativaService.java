@@ -3,6 +3,7 @@
 package br.milliecarol.projeto.servico;
 
 import br.milliecarol.projeto.entidade.Iniciativa;
+import br.milliecarol.projeto.entidade.ResultadoChave;
 import br.milliecarol.projeto.repositorio.IniciativaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +60,19 @@ public List<Iniciativa> listar() {
 }
 
 // DELETE
+/**
+* remove uma iniciativa e atualiza as porcentagens do kr e Objetivo relacionados
+* @param id ID da iniciativa a ser removida
+*/
 public void apagar(Long id) {
     Iniciativa iniciativa = buscarPorId(id);
-    if (iniciativa != null && iniciativa.getKr()!=null){
-        Long krId = iniciativa.getKr().getId();
-        iniciativaRepository.deleteById(krId);
+    if (iniciativa != null){
+        ResultadoChave kr = iniciativa.getKr();
+        iniciativaRepository.deleteById(id);
+
+        if(kr!=null){
+            resultadoChaveService.atualizarPorcentagemKr(kr.getId());
+        }
     }else{
         iniciativaRepository.deleteById(id);
     }

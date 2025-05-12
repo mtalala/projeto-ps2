@@ -40,6 +40,24 @@ public class ObjetivoService {
     public List<Objetivo> listar() {
         return objetivoRepository.findAll();
     }
+   
+     public List<Objetivo> buscarPorTitulo(String titulo) {
+        return objetivoRepository.findByTituloContainingIgnoreCase(titulo);
+    }
+    
+    public List<Objetivo> buscarPorDescricao(String desc) {
+        return objetivoRepository.findByDescContainingIgnoreCase(desc);
+    }
+    
+    public List<Objetivo> buscarPorPorcentagem(Double porcentagemConcGeral) {
+        return objetivoRepository.findByPorcentagemConcGeral(porcentagemConcGeral);
+    }
+
+    public Objetivo buscarPorId(Long id) {
+        Optional<Objetivo> resp = objetivoRepository.findById(id);
+        if(resp.isPresent()) return resp.get();
+        return null;
+    }
 
 // DELETE
     public void apagar(Long id) {
@@ -57,23 +75,7 @@ public class ObjetivoService {
         }
     }
 
-    public List<Objetivo> buscarPorTitulo(String titulo) {
-        return objetivoRepository.findByTituloContainingIgnoreCase(titulo);
-    }
-    
-    public List<Objetivo> buscarPorDescricao(String desc) {
-        return objetivoRepository.findByDescContainingIgnoreCase(desc);
-    }
-    
-    public List<Objetivo> buscarPorPorcentagem(Double porcentagemConcGeral) {
-        return objetivoRepository.findByPorcentagemConcGeral(porcentagemConcGeral);
-    }
-
-    public Objetivo buscarPorId(Long id) {
-        Optional<Objetivo> resp = objetivoRepository.findById(id);
-        if(resp.isPresent()) return resp.get();
-        return null;
-    }
+   
     
     //CALCULO %
     /**

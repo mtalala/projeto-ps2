@@ -2,11 +2,14 @@
 //Millie Talala Zogheib - 10443653 
 package br.milliecarol.projeto.servico;
 
+import br.milliecarol.projeto.entidade.Objetivo;
 import br.milliecarol.projeto.entidade.ResultadoChave;
 import br.milliecarol.projeto.repositorio.ResultadoChaveRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +58,23 @@ public class ResultadoChaveService {
     }
 
     // DELETE
+    /**
+     * remove um resultado chave e atualiza a porcentagem do objetivo relacionado
+     * @param id ID do kr a ser removido
+     */
     public void apagar(Long id) {
-        resultadoChaveRepository.deleteById(id);
+         ResultadoChave kr = buscarPorId(id);
+        if (kr != null) {
+            Objetivo objetivo = kr.getObj();
+            resultadoChaveRepository.deleteById(id);
+            
+            // atualiza o obj relacionado
+            if (objetivo != null) {
+                objetivoService.atualizarPorcentagemObjetivo(objetivo.getId());
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resultado-Chave não encontrado");
+        }
     }
 
     // UPDATE

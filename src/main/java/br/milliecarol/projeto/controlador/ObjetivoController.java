@@ -52,26 +52,47 @@ public class ObjetivoController {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum objetivo encontrado");
   }
 
+    /**
+     * Busca um objetivo específico pelo ID.
+     * 
+     * @param id ID do objetivo a ser buscado
+     * @return Objetivo encontrado
+     * @throws ResponseStatusException 404 se o objetivo não for encontrado
+     */
+    @GetMapping("/{id}")
+    public Objetivo buscarPorId(@PathVariable Long id) {
+        Objetivo objetivo = objetivoService.buscarPorId(id);
+        if (objetivo == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, 
+                "Objetivo com ID " + id + " não encontrado"
+            );
+        }
+        return objetivo;
+    }
+
+
 // READ
 /**
  * busca pelo título
  * @param titulo texto de busca
  * @return lista de obj encontrados
  */
-    @GetMapping("{titulo}")
+    @GetMapping("/titulo/{titulo}")
     public List<Objetivo> buscarPorTitulo(@PathVariable("titulo") String titulo) {
         List<Objetivo> objetivos = objetivoService.buscarPorTitulo(titulo);
         if (!objetivos.isEmpty()) return objetivos;
 
          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum objetivo encontrado com esse título");
     }
+    
 
 // READ
 /**
  * @param descricao pra buscar por
  * @return objetivos encontrado
  */
-    @GetMapping("/descricao/{descricao}")
+    @GetMapping("/desc/{descricao}")
     public List<Objetivo> buscarPorDescricao(@PathVariable("descricao") String descricao) {
         List<Objetivo> objetivos = objetivoService.buscarPorDescricao(descricao);
         if (!objetivos.isEmpty()) return objetivos;
