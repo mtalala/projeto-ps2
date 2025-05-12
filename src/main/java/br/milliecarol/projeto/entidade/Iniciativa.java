@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 
@@ -14,6 +17,10 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @ToString
 
+/**
+ * uma iniciativa vinculada a um resultado chave (kr)
+ */
+
 @Entity
 @Table(name="iniciativas")
 public class Iniciativa {
@@ -21,10 +28,13 @@ public class Iniciativa {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "id")  
     private Long id;
-    @ManyToOne
-    @JoinColumn(name="kr_id")
-    private ResultadoChave kr;
+   
     private String titulo;
     private String desc;
     private double porcentagemConcIndividual;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="kr_id")
+    @JsonBackReference
+    private ResultadoChave kr;
 }

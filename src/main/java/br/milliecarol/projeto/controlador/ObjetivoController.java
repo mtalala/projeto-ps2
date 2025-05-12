@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-
+/**
+ * controlador REST para as operações relacionadas do objetivo
+ * endpoints para o CRUD e cálculo de porcentagem
+ */
 @RestController
 @RequestMapping("/objetivos")
 public class ObjetivoController {
-
-    //private final ObjetivoRepository objetivoRepository;
-
     private final ObjetivoService objetivoService;
 
     public ObjetivoController(ObjetivoService objetivoService, ObjetivoRepository objetivoRepository) {
@@ -26,6 +26,11 @@ public class ObjetivoController {
     }
 
  // CREATE
+ /**
+  * cadatras um novo objetivo no sistema
+  * @param novoObjetivo são dados do objetivo que vai ser criado
+  * @return objetivo criado
+  */
  @PostMapping
  public Objetivo registrarLivro(@RequestBody Objetivo novoObjetivo) {
      Objetivo resp = objetivoService.cadastrar(novoObjetivo);
@@ -34,6 +39,10 @@ public class ObjetivoController {
  }
 
   // READ
+  /**
+   * retorna todos os objetivos cadastrados
+   * @return lista de objetivos
+   */
   @GetMapping
   public List<Objetivo> listar() {
       List<Objetivo> objetivos = objetivoService.listar();
@@ -43,17 +52,47 @@ public class ObjetivoController {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum objetivo encontrado");
   }
 
+    /**
+     * Busca um objetivo específico pelo ID.
+     * 
+     * @param id ID do objetivo a ser buscado
+     * @return Objetivo encontrado
+     * @throws ResponseStatusException 404 se o objetivo não for encontrado
+     */
+    @GetMapping("/{id}")
+    public Objetivo buscarPorId(@PathVariable Long id) {
+        Objetivo objetivo = objetivoService.buscarPorId(id);
+        if (objetivo == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, 
+                "Objetivo com ID " + id + " não encontrado"
+            );
+        }
+        return objetivo;
+    }
+
+
 // READ
-    @GetMapping("{titulo}")
+/**
+ * busca pelo título
+ * @param titulo texto de busca
+ * @return lista de obj encontrados
+ */
+    @GetMapping("/titulo/{titulo}")
     public List<Objetivo> buscarPorTitulo(@PathVariable("titulo") String titulo) {
         List<Objetivo> objetivos = objetivoService.buscarPorTitulo(titulo);
         if (!objetivos.isEmpty()) return objetivos;
 
          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum objetivo encontrado com esse título");
     }
+    
 
 // READ
-    @GetMapping("/descricao/{descricao}")
+/**
+ * @param descricao pra buscar por
+ * @return objetivos encontrado
+ */
+    @GetMapping("/desc/{descricao}")
     public List<Objetivo> buscarPorDescricao(@PathVariable("descricao") String descricao) {
         List<Objetivo> objetivos = objetivoService.buscarPorDescricao(descricao);
         if (!objetivos.isEmpty()) return objetivos;
@@ -62,6 +101,11 @@ public class ObjetivoController {
     }
 
 // READ
+/**
+ * buscar obj pela porcentagem
+ * @param porcentagemConcGeral para buscar por
+ * @return objetivos encontrados
+ */
     @GetMapping("/porcentagem/{porcentagemConcGeral}")
     public List<Objetivo> buscarPorPorcentagem(@PathVariable("porcentagemConcGeral") Double porcentagemConcGeral) {
         List<Objetivo> objetivos = objetivoService.buscarPorPorcentagem(porcentagemConcGeral);
@@ -70,7 +114,14 @@ public class ObjetivoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum objetivo encontrado com essa porcentagem");
     }
 
+
 // UPDATE
+/**
+ *  atualiza um objetivo existente
+ * @param id id do objetivo a ser atualizado
+ * @param novoObjetivo  dados atualizados 
+ * @return objeto atualizado
+ */
 @PutMapping("{id}")
 public Objetivo salvar(@PathVariable("id") Long id, @RequestBody Objetivo novoObjetivo) {
     novoObjetivo.setId(id);
@@ -80,13 +131,21 @@ public Objetivo salvar(@PathVariable("id") Long id, @RequestBody Objetivo novoOb
 }
 
 // DELETE
+/**
+ * remove um obj do sistema i
+ * @param id id do obj a ser removido 
+ */
 @DeleteMapping("{id}")
 public void apagar(@PathVariable("id") Long id) {
     objetivoService.apagar(id);
 }
 
 //Lógica calculo %
-
+/**
+ * recalcula a porcentagem de conclusão geral 
+ * @param id id do objetivo
+ * @return objetivo com porcentagem atualizada
+ */
 @PutMapping("/{id}/recalcular-porcentagem")
     public ResponseEntity<Objetivo> recalcularPorcentagem(@PathVariable Long id) {
         Objetivo objetivo = objetivoService.buscarPorId(id);

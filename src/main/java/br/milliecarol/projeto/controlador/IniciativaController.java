@@ -11,6 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * controlador REST para gerenciamento de Iniciativas.
+ * endpoints para operações CRUD e atualização de progresso.
+ */
 @RestController
 @RequestMapping("/iniciativas")
 public class IniciativaController {
@@ -22,13 +26,22 @@ public class IniciativaController {
     }
 
     // CREATE
+    /**
+     * cadastra uma nova iniciativa no sistema.
+     * @param novaIniciativa dados da iniciativa a ser criada
+     * @return Iniciativa criada
+     * @throws ResponseStatusException 400 se o KR não for informado ou não existir
+     */
     @PostMapping
     public Iniciativa cadastrar(@RequestBody Iniciativa novaIniciativa) {
-        Iniciativa criada = iniciativaService.cadastrar(novaIniciativa);
-        if (criada == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível cadastrar a iniciativa");
+        //Iniciativa criada = iniciativaService.cadastrar(novaIniciativa);
+       
+        try {
+            return iniciativaService.cadastrar(novaIniciativa);
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
         }
-        return criada;
+      
     }
 
     // READ
@@ -104,6 +117,14 @@ public class IniciativaController {
     }
 
     //CALCULO 
+    /**
+     * atualiza o progresso (porcentagem de conclusão) de uma iniciativa.
+     * @param id ID da iniciativa
+     * @param porcentagem nova porcentagem de 0 a100
+     * @return iniciativa atualizada
+     * @throws ResponseStatusException 400 se a porcentagem for inválida
+     * @throws ResponseStatusException 404 se a iniciativa não for encontrada
+     */
     @PutMapping("/{id}/progresso")
     public ResponseEntity<Iniciativa> atualizarProgresso(
             @PathVariable Long id,

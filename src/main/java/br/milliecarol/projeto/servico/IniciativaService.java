@@ -3,6 +3,7 @@
 package br.milliecarol.projeto.servico;
 
 import br.milliecarol.projeto.entidade.Iniciativa;
+import br.milliecarol.projeto.entidade.ResultadoChave;
 import br.milliecarol.projeto.repositorio.IniciativaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * responsável pela lógica de negócios relacionadas a iniciativas
+ * gerencia CRUD + cálculos de porcentagem de conclusão
+ */
 @Service
 public class IniciativaService {
 
@@ -25,15 +30,28 @@ public class IniciativaService {
     }
 
 // CREATE
+/**
+ * cadastra uma nova iniciativa e atualiza o kr relacionado
+ * @param novaIniciativa Iniciativa que será cadstrada
+ * @return Iniciativa cadastrada
+ * @throws IllegalArgumentException se o kr não foi informado ou não existir
+ */
 public Iniciativa cadastrar(Iniciativa novaIniciativa) {
-    
-    if(buscarPorId(novaIniciativa.getId()) != null) return null;
-    try {
-        return iniciativaRepository.save(novaIniciativa);
-    } catch(Exception ex) {
-        ex.printStackTrace();
-        return null;
+    if (novaIniciativa == null || novaIniciativa.getKr() == null || novaIniciativa.getKr().getId() == null) {
+        throw new IllegalArgumentException("Resultado-chave (kr.id) é obrigatório.");
     }
+
+    var kr = resultadoChaveService.buscarPorId(novaIniciativa.getKr().getId());
+    if (kr == null) {
+        throw new IllegalArgumentException("Resultado-chave com id " + novaIniciativa.getKr().getId() + " não encontrado.");
+    }
+
+    novaIniciativa.setKr(kr);
+    Iniciativa saved = iniciativaRepository.save(novaIniciativa);
+
+    resultadoChaveService.atualizarPorcentagemKr(kr.getId());
+
+    return saved;
 }
 
 // READ
@@ -42,15 +60,34 @@ public List<Iniciativa> listar() {
 }
 
 // DELETE
+/**
+* remove uma iniciativa e atualiza as porcentagens do kr e Objetivo relacionados
+* @param id ID da iniciativa a ser removida
+*/
 public void apagar(Long id) {
-    iniciativaRepository.deleteById(id);
+    Iniciativa iniciativa = buscarPorId(id);
+    if (iniciativa != null){
+        ResultadoChave kr = iniciativa.getKr();
+        iniciativaRepository.deleteById(id);
+
+        if(kr!=null){
+            resultadoChaveService.atualizarPorcentagemKr(kr.getId());
+        }
+    }else{
+        iniciativaRepository.deleteById(id);
+    }
 }
 
 // UPDATE
 public Iniciativa salvar(Iniciativa novaiIniciativa) {
     if(buscarPorId(novaiIniciativa.getId()) == null) return null;
     try {
-        return iniciativaRepository.save(novaiIniciativa);
+
+        Iniciativa saved = iniciativaRepository.save(novaiIniciativa);
+        if(saved.getKr()!=null){
+            resultadoChaveService.atualizarPorcentagemKr(saved.getKr().getId());
+        }
+        return saved;
     } catch(Exception ex) {
         ex.printStackTrace();
         return null;
@@ -82,7 +119,14 @@ public Iniciativa salvar(Iniciativa novaiIniciativa) {
             return null;
     }
 
-    // CALCULO PORCENTAGEM
+// CALCULO PORCENTAGEM
+
+/**
+ * atualiza a porcentagem de conclusão de uma iniciativa e a cascata de atualizações para o kr relacionado
+ * @param id Id da iniciativa
+ * @param porcentagem Nova porcentagem de 0 a 100
+ * @return Iniciativa atualizada ou null
+ */
     public Iniciativa atualizarPorcentagem(Long id, double porcentagem) {
         Iniciativa iniciativa = buscarPorId(id);
         if (iniciativa != null) {
