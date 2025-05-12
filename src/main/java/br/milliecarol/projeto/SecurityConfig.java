@@ -7,13 +7,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
+    //transforma filterChain em um componente gerenciado pelo spring - pra configurar a segurança
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desativa CSRF para requisições via Postman
+            .csrf(csrf -> csrf.disable()) // desativa CSRF(cross-site rfequest forgery) para requisições via Postman?
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // Libera todas as rotas da API
+                .anyRequest().permitAll() // libera todas as rotas da API sem precisar de autenificação
             );
         return http.build();
     }

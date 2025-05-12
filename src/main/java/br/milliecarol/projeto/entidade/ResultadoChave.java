@@ -34,12 +34,12 @@ public class ResultadoChave {
     //objetivo que está vinculado
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="objetivo_id")
-    @JsonBackReference
+    @JsonBackReference // será serializado normalmente
     private Objetivo obj;
 
     //lista de iniciativas associadas ao kr
     @OneToMany(mappedBy = "kr", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference // será ignorado durante a serialização (pra evitar birdirecionamento)
     private List<Iniciativa> iniciativas = new ArrayList<>();
     
     /**

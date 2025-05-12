@@ -32,7 +32,7 @@ public class Objetivo {
     private double porcentagemConcGeral;
 
     @OneToMany(mappedBy = "obj", cascade = CascadeType.ALL, fetch =FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference // vai aparecer normalmenteno json (evita relaçoes bidirecionais)
     private List<ResultadoChave> krs = new ArrayList<>();
 
    /**
