@@ -16,6 +16,7 @@ import java.util.List;
  * endpoints para operações CRUD e atualização de progresso.
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/iniciativas")
 public class IniciativaController {
 

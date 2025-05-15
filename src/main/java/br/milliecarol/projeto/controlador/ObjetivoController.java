@@ -16,6 +16,7 @@ import java.util.*;
  * endpoints para o CRUD e cálculo de porcentagem
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/objetivos")
 public class ObjetivoController {
     private final ObjetivoService objetivoService;
