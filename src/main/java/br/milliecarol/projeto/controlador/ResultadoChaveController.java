@@ -16,6 +16,7 @@ import java.util.List;
  * endpoints para operações CRUD e porcentagem cálculo
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/resultados-chave")
 public class ResultadoChaveController {
 
